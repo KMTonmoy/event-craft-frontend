@@ -1,11 +1,10 @@
-import { Button } from '@/components/ui/button';
-import React from 'react';
+import Navbar from '@/components/Navbar';
+ import React from 'react';
 
 const page = () => {
   return (
-    <div> 
-      
-      <Button>Hellow World</Button>
+    <div>
+      <Navbar />
     </div>
   );
 };
