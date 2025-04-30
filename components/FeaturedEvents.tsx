@@ -48,23 +48,14 @@ const FeaturedEvents = () => {
     }
     return array;
   };
-
-  const handleButtonClick = (eventId: string) => {
-    console.log(`Button clicked for event with ID: ${eventId}`);
-  };
+ 
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold text-center mb-8">🌟 Featured Events</h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {events.map((event, index) => {
-          const buttonText = event.isPrivate
-            ? event.isPaid
-              ? 'Request & Pay'
-              : 'Request to Join'
-            : event.isPaid
-            ? 'Buy Ticket'
-            : 'Join Event';
+     
 
           return (
             <motion.div
@@ -85,8 +76,7 @@ const FeaturedEvents = () => {
                 isPaid={event.isPaid}
                 isPrivate={event.isPrivate}
                 price={event.price}
-                onButtonClick={() => handleButtonClick(event.id)}
-                buttonText={buttonText}
+                id={event.id}
               />
             </motion.div>
           );
