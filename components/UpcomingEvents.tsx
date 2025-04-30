@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/pagination';
 import EventCard from './Card';
 
 interface EventType {
@@ -26,14 +27,14 @@ const EventsShowcase = () => {
     axios.get('./featuredEvents.json').then((res) => {
       const allEvents = res.data as EventType[];
 
-       const upcomingFreeEvents = allEvents.filter(
+      const upcomingFreeEvents = allEvents.filter(
         (e) => !e.isPaid && !e.isPrivate && new Date(e.date) >= new Date()
       );
 
       setFreeEvents(upcomingFreeEvents.slice(0, 9));  
     });
   }, []);
-console.log(freeEvents)
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold text-center mb-8">
@@ -44,7 +45,8 @@ console.log(freeEvents)
         slidesPerView={1}
         loop={true}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
-        modules={[Autoplay]}
+        modules={[Autoplay, Pagination]}  
+        pagination={{ clickable: true }}  
         breakpoints={{
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2 },
@@ -57,9 +59,8 @@ console.log(freeEvents)
             <div className="relative">
               <div className="absolute top-3 left-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full z-10 shadow">
                 Free
-                
               </div>
-              <div className="shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
+              <div className="shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 my-10">
                 <EventCard
                   title={event.title}
                   category={event.category}
