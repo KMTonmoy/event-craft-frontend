@@ -32,7 +32,7 @@ const Navbar = () => {
 
     return (
         <motion.nav
-            className="bg-white shadow-md sticky top-0 z-50"
+            className="bg-white shadow-md   z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}

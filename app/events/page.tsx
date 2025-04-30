@@ -22,18 +22,12 @@ const FilteredEvents = () => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
   const [sortBy, setSortBy] = useState('date');
-  const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setHasToken(!!token);
-
     axios.get('/featuredEvents.json').then((res) => {
       setEvents(res.data);
     });
   }, []);
-
-  const isPrivateFilter = filter === 'Private Free' || filter === 'Private Paid';
 
   const filtered = events
     .filter((e) => {
@@ -49,8 +43,8 @@ const FilteredEvents = () => {
           : filter === 'Public Paid'
           ? !e.isPrivate && e.isPaid
           : filter === 'Private Free'
-          ? hasToken && e.isPrivate && !e.isPaid
-          : hasToken && e.isPrivate && e.isPaid;
+          ? e.isPrivate && !e.isPaid
+          : e.isPrivate && e.isPaid;
 
       return searchMatch && filterMatch;
     })
@@ -58,15 +52,6 @@ const FilteredEvents = () => {
       if (sortBy === 'price') return a.price - b.price;
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
-
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedFilter = e.target.value;
-    setFilter(selectedFilter);
-
-     if (isPrivateFilter && !hasToken) {
-      alert('🚫 Please login first to view private events.');
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 space-y-6">
@@ -85,7 +70,7 @@ const FilteredEvents = () => {
         <div className="flex gap-4">
           <select
             value={filter}
-            onChange={handleFilterChange}
+            onChange={(e) => setFilter(e.target.value)}
             className="px-4 py-2 border rounded-lg"
           >
             <option value="All">All</option>
@@ -106,13 +91,6 @@ const FilteredEvents = () => {
         </div>
       </div>
 
-      {/* Show login prompt for private filter if not logged in */}
-      {!hasToken && isPrivateFilter && (
-        <p className="text-center text-red-600 font-medium">
-          🚫 Please login first to view private events.
-        </p>
-      )}
-
       {/* Grid of Events */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((event, index) => (
@@ -127,7 +105,7 @@ const FilteredEvents = () => {
             <EventCard {...event} />
           </motion.div>
         ))}
-        {filtered.length === 0 && !(!hasToken && isPrivateFilter) && (
+        {filtered.length === 0 && (
           <p className="col-span-full text-center text-gray-500">No matching events found.</p>
         )}
       </div>

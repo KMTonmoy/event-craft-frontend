@@ -43,8 +43,10 @@ const EventCard: React.FC<EventProps> = ({
   isPaid,
   isPrivate,
   price,
+  id
 }) => {
-  return (
+
+   return (
     <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-all hover:shadow-2xl cursor-pointer">
       <img src={image} alt={title} className="w-full h-48 object-cover" />
       <div className="p-4">
@@ -71,7 +73,7 @@ const EventCard: React.FC<EventProps> = ({
           <span>{isPaid ? `৳${price}` : "Free"}</span>
         </div>
         <div className="flex items-center gap-2 text-gray-600 mb-3">
-          <Link href={"/event/id"}>
+          <Link href={`/event/${id}`}>
             <button className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
               View Details
             </button>
