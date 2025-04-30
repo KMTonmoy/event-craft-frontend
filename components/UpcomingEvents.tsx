@@ -45,8 +45,8 @@ const EventsShowcase = () => {
         slidesPerView={1}
         loop={true}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
-        modules={[Autoplay, Pagination]}  
-        pagination={{ clickable: true }}  
+        modules={[Autoplay, Pagination]}
+        pagination={{ clickable: true }}
         breakpoints={{
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2 },
