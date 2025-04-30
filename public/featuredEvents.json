@@ -4,48 +4,307 @@
       "title": "Tech Innovators Conference 2025",
       "category": "Business",
       "image": "https://images.unsplash.com/photo-1560523159-94c9d18bcf27?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "date": "2025-06-15T10:00:00",
-      "endTime": "2025-06-15T17:00:00",
+      "date": "2025-06-15",
       "location": "Dhaka, Bangladesh",
       "isPaid": true,
       "isPrivate": false,
-      "price": 1200
+      "price": 1200,
+      "isFeatureSelected": true
     },
     {
       "id": "2",
       "title": "Startup Pitch Night",
       "category": "Entrepreneurship",
-      "image": "https://images.unsplash.com/photo-1563461660947-507ef49e9c47?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "date": "2025-06-25T18:00:00",
-      "endTime": "2025-06-25T22:00:00",
+      "image": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-06-25",
       "location": "Rajshahi University Auditorium",
       "isPaid": false,
       "isPrivate": true,
-      "price": 0
+      "price": 0,
+      "isFeatureSelected": true
     },
     {
       "id": "3",
       "title": "Digital Art & NFT Expo",
       "category": "Art",
-      "image": "https://plus.unsplash.com/premium_photo-1706432893245-879578bdee4d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "date": "2025-07-02T10:00:00",
-      "endTime": "2025-07-02T16:00:00",
+      "image": "https://images.unsplash.com/photo-1743119638006-a01d4625745d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-07-02",
       "location": "Online (Zoom)",
       "isPaid": true,
       "isPrivate": false,
-      "price": 500
+      "price": 500,
+      "isFeatureSelected": true
     },
     {
       "id": "4",
       "title": "Freelancers Meetup Ishwardi",
       "category": "Networking",
-      "image": "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "date": "2025-05-10T09:00:00",
-      "endTime": "2025-05-10T12:00:00",
+      "image": "https://images.unsplash.com/photo-1532618793091-ec5fe9635fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-05-10",
       "location": "Ishwardi IT Park",
       "isPaid": false,
       "isPrivate": false,
-      "price": 0
+      "price": 0,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "5",
+      "title": "Women in Tech Forum",
+      "category": "Technology",
+      "image": "https://images.unsplash.com/photo-1650784853603-bd1ee8fb6712?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-07-10",
+      "location": "Sylhet IT Park",
+      "isPaid": true,
+      "isPrivate": true,
+      "price": 800,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "6",
+      "title": "Gaming Championship BD",
+      "category": "Gaming",
+      "image": "https://images.unsplash.com/photo-1698502744221-af2c5190dd72?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-06-01",
+      "location": "Chittagong Expo Center",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 1500,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "7",
+      "title": "HealthTech Summit",
+      "category": "Health",
+      "image": "https://plus.unsplash.com/premium_photo-1723618898312-54269787cbe0?q=80&w=2047&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-07-08",
+      "location": "Dhaka, Bangladesh",
+      "isPaid": true,
+      "isPrivate": true,
+      "price": 900,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "8",
+      "title": "EduHack Bootcamp",
+      "category": "Education",
+      "image": "https://images.unsplash.com/photo-1544890225-2f3faec4cd60?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-05-20",
+      "location": "Online (Zoom)",
+      "isPaid": false,
+      "isPrivate": false,
+      "price": 0,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "9",
+      "title": "Science Fair 2025",
+      "category": "Science",
+      "image": "https://plus.unsplash.com/premium_photo-1663089905440-78880eab98c1?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-06-28",
+      "location": "Rajshahi University Auditorium",
+      "isPaid": false,
+      "isPrivate": false,
+      "price": 0,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "10",
+      "title": "Next Level Coding",
+      "category": "Technology",
+      "image": "https://images.unsplash.com/photo-1565687981296-535f09db714e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-05-18",
+      "location": "Ishwardi IT Park",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 700,
+      "isFeatureSelected": false
+    },
+   
+        {
+          "id": "21",
+          "title": "Python for Beginners",
+          "category": "Technology",
+          "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "date": "2025-07-15",
+          "location": "Dhaka, Bangladesh",
+          "isPaid": false,
+          "isPrivate": false,
+          "price": 0,
+          "isFeatureSelected": false
+        },
+        {
+          "id": "22",
+          "title": "JavaScript Essentials",
+          "category": "Technology",
+          "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "date": "2025-08-01",
+          "location": "Chittagong, Bangladesh",
+          "isPaid": false,
+          "isPrivate": false,
+          "price": 0,
+          "isFeatureSelected": false
+        },
+        {
+          "id": "23",
+          "title": "React for Beginners",
+          "category": "Technology",
+          "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "date": "2025-08-10",
+          "location": "Sylhet, Bangladesh",
+          "isPaid": false,
+          "isPrivate": false,
+          "price": 0,
+          "isFeatureSelected": false
+        },
+        {
+          "id": "24",
+          "title": "Web Development 101",
+          "category": "Technology",
+          "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "date": "2025-08-20",
+          "location": "Rajshahi, Bangladesh",
+          "isPaid": false,
+          "isPrivate": false,
+          "price": 0,
+          "isFeatureSelected": false
+        },
+        {
+          "id": "25",
+          "title": "Mastering Node.js",
+          "category": "Technology",
+          "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "date": "2025-09-05",
+          "location": "Khulna, Bangladesh",
+          "isPaid": false,
+          "isPrivate": false,
+          "price": 0,
+          "isFeatureSelected": false
+        },
+        {
+          "id": "26",
+          "title": "Mastering Node.js",
+          "category": "Technology",
+          "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "date": "2025-09-05",
+          "location": "Khulna, Bangladesh",
+          "isPaid": false,
+          "isPrivate": false,
+          "price": 0,
+          "isFeatureSelected": false
+        },
+      
+      
+
+
+
+    {
+      "id": "12",
+      "title": "AI Innovations Expo",
+      "category": "Technology",
+      "image": "https://images.unsplash.com/photo-1716436329476-fd6cbaa1fc71?q=80&w=1856&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-08-01",
+      "location": "Online (Zoom)",
+      "isPaid": true,
+      "isPrivate": true,
+      "price": 1000,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "13",
+      "title": "Blockchain for Future",
+      "category": "Technology",
+      "image": "https://images.unsplash.com/photo-1639815188546-c43c240ff4df?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-07-18",
+      "location": "Chittagong Convention Center",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 1200,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "14",
+      "title": "Cloud Computing Summit",
+      "category": "Technology",
+      "image": "https://plus.unsplash.com/premium_photo-1684522167826-a473e63337b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-08-05",
+      "location": "Rajshahi IT Park",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 1300,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "15",
+      "title": "Startup Ecosystem 2025",
+      "category": "Entrepreneurship",
+      "image": "https://plus.unsplash.com/premium_photo-1716259490205-dfbb08f9919f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-08-12",
+      "location": "Ishwardi Convention Center",
+      "isPaid": false,
+      "isPrivate": true,
+      "price": 0,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "16",
+      "title": "Data Science Bootcamp",
+      "category": "Technology",
+      "image": "https://plus.unsplash.com/premium_photo-1661878265739-da90bc1af051?q=80&w=1986&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-08-20",
+      "location": "Dhaka, Bangladesh",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 1500,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "17",
+      "title": "Future of E-commerce",
+      "category": "Business",
+      "image": "https://images.unsplash.com/photo-1568952433726-3896e3881c65?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-09-02",
+      "location": "Online (Zoom)",
+      "isPaid": true,
+      "isPrivate": true,
+      "price": 1100,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "18",
+      "title": "Artificial Intelligence Conference 2025",
+      "category": "Technology",
+      "image": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2020&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-09-10",
+      "location": "Dhaka, Bangladesh",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 1400,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "19",
+      "title": "Cybersecurity Bootcamp",
+      "category": "Technology",
+      "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-09-15",
+      "location": "Online (Zoom)",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 2000,
+      "isFeatureSelected": false
+    },
+    {
+      "id": "20",
+      "title": "Digital Marketing Summit",
+      "category": "Marketing",
+      "image": "https://plus.unsplash.com/premium_photo-1679547202548-31e36e0095ec?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-09-22",
+      "location": "Ishwardi Convention Center",
+      "isPaid": true,
+      "isPrivate": false,
+      "price": 900,
+      "isFeatureSelected": false
     }
-  ]
+  
+   ]
   

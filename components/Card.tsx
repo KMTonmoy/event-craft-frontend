@@ -1,7 +1,9 @@
+import Link from 'next/link';
 import React from 'react';
 import { FaClock, FaMapMarkerAlt, FaLock, FaTag, FaUsers } from 'react-icons/fa';
-
+ 
 interface EventProps {
+  id: string;
   title: string;
   category: string;
   date: string;
@@ -11,8 +13,6 @@ interface EventProps {
   isPaid: boolean;
   isPrivate: boolean;
   price: number;
-  onButtonClick: () => void;
-  buttonText: string;
 }
 
 const formatStartDateTime = (dateStr: string) => {
@@ -26,28 +26,26 @@ const formatStartDateTime = (dateStr: string) => {
 const formatEndTime = (timeStr: string) => {
   if (!timeStr) return 'TBD';
   const time = new Date(timeStr);
-  if (isNaN(time.getTime())) return 'TBD';  
+  if (isNaN(time.getTime())) return 'TBD';
   return time.toLocaleTimeString(undefined, {
     hour: 'numeric',
     minute: '2-digit',
   });
 };
 
-const EventCard: React.FC<EventProps> = ({ 
-  title, 
-  category, 
-  date, 
-  endTime, 
-  location, 
-  image, 
-  isPaid, 
-  isPrivate, 
-  price, 
-  onButtonClick, 
-  buttonText 
+const EventCard: React.FC<EventProps> = ({
+   title,
+  category,
+  date,
+  endTime,
+  location,
+  image,
+  isPaid,
+  isPrivate,
+  price,
 }) => {
   return (
-    <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-all hover:shadow-2xl">
+    <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-all hover:shadow-2xl cursor-pointer">
       <img src={image} alt={title} className="w-full h-48 object-cover" />
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-800 mb-1">{title}</h3>
@@ -70,26 +68,21 @@ const EventCard: React.FC<EventProps> = ({
 
         <div className="flex items-center gap-2 text-gray-600 mb-3">
           <FaTag className="text-blue-500" />
-          <span>{isPaid ? `৳${price}` : 'Free'}</span>
+          <span>{isPaid ? `৳${price}` : "Free"}</span>
         </div>
-
-        <div className="flex justify-between items-center mt-4">
-          <button
-            onClick={onButtonClick}
-            className={`px-4 py-2 text-sm font-medium rounded-md w-full transition-colors ${
-              buttonText === 'Event Ended'
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-blue-600 text-white hover:bg-blue-700'
-            }`}
-          >
-            {buttonText}
-          </button>
+        <div className="flex items-center gap-2 text-gray-600 mb-3">
+          <Link href={"/event/id"}>
+            <button className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+              View Details
+            </button>
+          </Link>
         </div>
 
         <p className="text-xs mt-2 flex items-center gap-1">
           {isPrivate ? (
             <>
-              <FaLock className="text-red-500" /> Private Event - Approval Required
+              <FaLock className="text-red-500" /> Private Event - Approval
+              Required
             </>
           ) : (
             <>

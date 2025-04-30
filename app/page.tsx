@@ -1,3 +1,4 @@
+'use client'
 import Banner from '@/components/Banner';
 import FeaturedEvents from '@/components/FeaturedEvents';
 import UpcomingEvents from '@/components/UpcomingEvents';
@@ -8,9 +9,26 @@ import PlatformFeatures from '@/components/PlatformFeatures';
 import EventCategories from '@/components/EventCategories';
 import UserTestimonials from '@/components/UserTestimonials';
 import CallToAction from '@/components/CallToAction';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Loading from './loading';
+ 
+const Page = () => {
+  const [loading, setLoading] = useState<boolean>(true);
 
-const page = () => {
+  useEffect(() => {
+     setTimeout(() => {
+      setLoading(false);
+    }, 200);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Banner />
@@ -27,4 +45,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
