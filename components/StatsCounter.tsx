@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EventCard = () => {
+const StatsCounter = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const EventCard = () => {
     );
 };
 
-export default EventCard;
+export default StatsCounter;
