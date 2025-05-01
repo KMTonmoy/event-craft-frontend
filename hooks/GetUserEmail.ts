@@ -1,3 +1,5 @@
+'use client';
+
 import { jwtDecode } from 'jwt-decode';
 
 interface MyTokenPayload {
@@ -5,7 +7,10 @@ interface MyTokenPayload {
 }
 
 const GetUserEmail = (): string | null => {
-  const token = localStorage?.getItem('token');
+  if (typeof window === 'undefined') return null; 
+
+  const token = window.localStorage.getItem('token');  
+
   if (token) {
     try {
       const decodedToken = jwtDecode<MyTokenPayload>(token);
@@ -15,6 +20,7 @@ const GetUserEmail = (): string | null => {
       return null;
     }
   }
+
   return null;
 };
 
