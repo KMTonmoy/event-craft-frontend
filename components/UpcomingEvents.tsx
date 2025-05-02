@@ -13,7 +13,6 @@ interface EventType {
   category: string;
   image: string;
   date: string;
-  endTime: string;
   location: string;
   isPaid: boolean;
   isPrivate: boolean;
@@ -67,7 +66,6 @@ const EventsShowcase = () => {
                   title={event.title}
                   category={event.category}
                   date={event.date}
-                  endTime={event.endTime}
                   location={event.location}
                   image={event.image}
                   isPaid={event.isPaid}

@@ -76,7 +76,6 @@ const FeaturedEvents = () => {
               title={event.title}
               category={event.category}
               date={event.date}
-              endTime={event.endTime}
               location={event.location}
               image={event.image}
               isPaid={event.isPaid}

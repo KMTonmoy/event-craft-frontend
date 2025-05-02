@@ -25,6 +25,7 @@ interface EventData {
 interface User {
   id: string;
   email: string;
+  role: string;
 }
 
 const MyEvents: React.FC = () => {
@@ -66,11 +67,15 @@ const MyEvents: React.FC = () => {
     axios.get('https://event-craft-serv.vercel.app/api/v1/event/events')
       .then(res => {
         if (res.data.success) {
-          setEvents(res.data.data);
+          const allEvents: EventData[] = res.data.data;
+          const filtered = user?.role === 'ADMIN'
+            ? allEvents
+            : allEvents.filter((event: EventData) => event.Author === userEmail);
+          setEvents(filtered);
         }
       })
       .catch(() => {});
-  }, []);
+  }, [userEmail, user]);
 
   const handleCreateEvent = async () => {
     const payload = { ...newEvent, Author: user?.email || '', creator_id: user?.id || '' };
@@ -110,7 +115,8 @@ const MyEvents: React.FC = () => {
   };
 
   const openEditModal = (event: EventData) => {
-    setEditEvent(event);
+    const formattedDate = new Date(event.date).toISOString().slice(0, 16);
+    setEditEvent({ ...event, date: formattedDate });
     setIsEditing(true);
     setIsModalOpen(true);
   };
@@ -155,7 +161,6 @@ const MyEvents: React.FC = () => {
               />
               <input
                 type="datetime-local"
-                placeholder="Date"
                 value={isEditing ? editEvent?.date : newEvent.date}
                 onChange={(e) => isEditing ? setEditEvent({ ...editEvent!, date: e.target.value }) : setNewEvent({ ...newEvent, date: e.target.value })}
                 className="border p-2 rounded w-full"
@@ -181,17 +186,9 @@ const MyEvents: React.FC = () => {
                   onChange={(e) => {
                     const isPaid = e.target.value === 'Yes';
                     if (isEditing) {
-                      setEditEvent({
-                        ...editEvent!,
-                        isPaid,
-                        price: isPaid ? editEvent!.price : 0
-                      });
+                      setEditEvent({ ...editEvent!, isPaid, price: isPaid ? editEvent!.price : 0 });
                     } else {
-                      setNewEvent({
-                        ...newEvent,
-                        isPaid,
-                        price: isPaid ? newEvent.price : 0
-                      });
+                      setNewEvent({ ...newEvent, isPaid, price: isPaid ? newEvent.price : 0 });
                     }
                   }}
                   className="border p-2 rounded"
