@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import GetUserEmail from '@/hooks/GetUserEmail';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import GetUserEmail from "@/hooks/GetUserEmail";
 
 // Interfaces
 interface UserData {
@@ -30,10 +30,12 @@ const Page = () => {
 
   useEffect(() => {
     if (userEmail) {
-      fetch(`http://localhost:5000/api/v1/users/users/${userEmail}`)
+      fetch(
+        `https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`
+      )
         .then((res) => res.json())
         .then((resp) => setData(resp))
-        .catch((err) => console.error('Error fetching user data:', err));
+        .catch((err) => console.error("Error fetching user data:", err));
     }
   }, [userEmail]);
 
@@ -44,7 +46,9 @@ const Page = () => {
       {/* Header */}
       <div className="bg-blue-600 text-white rounded-2xl p-6 shadow-lg">
         <h1 className="text-3xl font-bold">👋 Welcome to Your Dashboard</h1>
-        <p className="mt-2 text-lg">Here’s a quick overview of your activity and events.</p>
+        <p className="mt-2 text-lg">
+          Here’s a quick overview of your activity and events.
+        </p>
       </div>
 
       {/* User Info Badges */}
@@ -52,7 +56,7 @@ const Page = () => {
         <div className="bg-white shadow-md rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Image
-              src={user.image_url || '/default-avatar.png'}
+              src={user.image_url || "/default-avatar.png"}
               alt="User Avatar"
               width={120}
               height={120}
@@ -96,16 +100,21 @@ const Page = () => {
           className="rounded-2xl shadow-lg object-cover"
         />
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">Stay Engaged with Your Community</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">
+            Stay Engaged with Your Community
+          </h2>
           <p className="text-gray-600 text-lg">
-            Participate in events, connect with others, and make an impact. Your dashboard helps you manage everything in one place with ease.
+            Participate in events, connect with others, and make an impact. Your
+            dashboard helps you manage everything in one place with ease.
           </p>
         </div>
       </div>
 
       {/* Tips or Announcements */}
       <div className="bg-gray-100 p-5 rounded-xl shadow-sm">
-        <h3 className="text-xl font-semibold mb-2 text-blue-700">📢 Latest Tips</h3>
+        <h3 className="text-xl font-semibold mb-2 text-blue-700">
+          📢 Latest Tips
+        </h3>
         <ul className="list-disc ml-5 text-gray-700 space-y-1">
           <li>Join events early to avoid missing spots.</li>
           <li>Leave reviews after attending to help organizers improve.</li>

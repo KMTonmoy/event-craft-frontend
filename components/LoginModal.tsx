@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MdClose } from 'react-icons/md';
-import axios from 'axios';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { MdClose } from "react-icons/md";
+import axios from "axios";
 
 interface LoginModalProps {
   closeModals: () => void;
@@ -10,8 +10,8 @@ interface LoginModalProps {
 
 const LoginModal: React.FC<LoginModalProps> = ({ closeModals }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -28,28 +28,32 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModals }) => {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/auth/login', formData, {
-        withCredentials: true, // ✅ Important for refresh_token cookie
-      });
+      const response = await axios.post(
+        "https://event-craft-serv.vercel.app/api/v1/auth/login",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
 
       const access_token = response.data.data?.access_token;
 
       if (access_token) {
-        localStorage.setItem('token', access_token); // ✅ Match with your useGetUserEmail hook
+        localStorage.setItem("token", access_token);
         closeModals();
-        window.location.reload();  
+        window.location.reload();
       } else {
-        setError('Login failed. No access token received.');
+        setError("Login failed. No access token received.");
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.data?.message) {
           setError(error.response.data.message);
         } else {
-          setError('Login failed. Please try again.');
+          setError("Login failed. Please try again.");
         }
       } else {
-        setError('An unexpected error occurred.');
+        setError("An unexpected error occurred.");
       }
     }
   };
