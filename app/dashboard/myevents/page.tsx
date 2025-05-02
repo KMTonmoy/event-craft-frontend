@@ -102,7 +102,7 @@ const MyEvents: React.FC = () => {
         setIsEditing(false);
       }
     } catch {}
-  };
+  }; 
 
   const handleDeleteEvent = async (id: string) => {
     try {
