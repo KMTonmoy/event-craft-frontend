@@ -45,7 +45,7 @@ const Page = () => {
     <div className="p-6 space-y-8">
       {/* Header */}
       <div className="bg-blue-600 text-white rounded-2xl p-6 shadow-lg">
-        <h1 className="text-3xl font-bold">👋 Welcome to Your Dashboard</h1>
+        <h1 className="text-3xl font-bold">👋 Welcome to Your Dashboard:  {user?.full_name}</h1>
         <p className="mt-2 text-lg">
           Here’s a quick overview of your activity and events.
         </p>
@@ -54,13 +54,12 @@ const Page = () => {
       {/* User Info Badges */}
       {user && (
         <div className="bg-white shadow-md rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Image
-              src={user.image_url || "/default-avatar.png"}
+          <div className="flex justify-center items-center">
+            <img
+              src={user.image_url || "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"}
               alt="User Avatar"
-              width={120}
-              height={120}
-              className="rounded-full shadow-md object-cover"
+              
+              className="rounded-full w-[100px] shadow-md object-cover"
             />
           </div>
           <div className="flex flex-col gap-2 text-gray-800">
