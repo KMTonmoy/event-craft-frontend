@@ -1,7 +1,7 @@
-'use client';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+"use client";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 // Define the interface for the event data
 interface Event {
@@ -24,7 +24,9 @@ const EventDetails = () => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const res = await fetch(`http://localhost:5000/api/v1/event/events/${id}`);
+      const res = await fetch(
+        `https://event-craft-serv.vercel.app/api/v1/event/events/${id}`
+      );
       const data = await res.json();
       setEvent(data.data);
     };

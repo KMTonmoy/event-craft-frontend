@@ -1,11 +1,11 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import EventCard from './Card';
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import EventCard from "./Card";
 
 interface EventType {
   id: string;
@@ -24,15 +24,17 @@ const EventsShowcase = () => {
   const [freeEvents, setFreeEvents] = useState<EventType[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/v1/event/events').then((res) => {
-      const allEvents = res.data.data as EventType[];
+    axios
+      .get("https://event-craft-serv.vercel.app/api/v1/event/events")
+      .then((res) => {
+        const allEvents = res.data.data as EventType[];
 
-      const upcomingFreeEvents = allEvents.filter(
-        (e) => !e.isPaid && !e.isPrivate && new Date(e.date) >= new Date()
-      );
+        const upcomingFreeEvents = allEvents.filter(
+          (e) => !e.isPaid && !e.isPrivate && new Date(e.date) >= new Date()
+        );
 
-      setFreeEvents(upcomingFreeEvents.slice(0, 9));  
-    });
+        setFreeEvents(upcomingFreeEvents.slice(0, 9));
+      });
   }, []);
 
   return (

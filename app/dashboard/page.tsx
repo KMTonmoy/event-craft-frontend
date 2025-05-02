@@ -30,7 +30,9 @@ const Page = () => {
 
   useEffect(() => {
     if (userEmail) {
-      fetch(`http://localhost:5000/api/v1/users/users/${userEmail}`)
+      fetch(
+        `https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`
+      )
         .then((res) => res.json())
         .then((resp) => setData(resp))
         .catch((err) => console.error("Error fetching user data:", err));
