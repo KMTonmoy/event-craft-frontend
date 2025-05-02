@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import EventCard from './Card';
- 
+
 interface EventType {
   id: string;
   title: string;
@@ -15,24 +15,23 @@ interface EventType {
   isPaid: boolean;
   isPrivate: boolean;
   price: number;
+  isFeatureSelected: boolean;
 }
-
- 
 
 const FeaturedEvents = () => {
   const [events, setEvents] = useState<EventType[]>([]);
 
   useEffect(() => {
     const jwt = localStorage.getItem('token');
-    axios.get('./featuredEvents.json').then((res) => {
-      const allEvents = res.data as EventType[];
+    axios.get('http://localhost:5000/api/v1/event/events').then((res) => {
+      const allEvents = res.data.data as EventType[];
 
       if (jwt) {
-        const upcomingEvents = allEvents.filter((event) => isUpcoming(event.date));
+        const upcomingEvents = allEvents.filter((event) => isUpcoming(event.date) && event.isFeatureSelected);
         const randomEvents = shuffle(upcomingEvents).slice(0, 6);
         setEvents(randomEvents);
       } else {
-        const publicEvents = allEvents.filter((event) => !event.isPrivate && isUpcoming(event.date));
+        const publicEvents = allEvents.filter((event) => !event.isPrivate && isUpcoming(event.date) && event.isFeatureSelected);
         const randomPublicEvents = shuffle(publicEvents).slice(0, 3);
         setEvents(randomPublicEvents);
       }
@@ -48,39 +47,34 @@ const FeaturedEvents = () => {
     }
     return array;
   };
- 
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold text-center mb-8">🌟 Featured Events</h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {events.map((event, index) => {
-     
-
-          return (
-            <motion.div
-              key={event.id}
-              className="transition-all hover:shadow-2xl"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <EventCard
-                title={event.title}
-                category={event.category}
-                date={event.date}
-                endTime={event.endTime}
-                location={event.location}
-                image={event.image}
-                isPaid={event.isPaid}
-                isPrivate={event.isPrivate}
-                price={event.price}
-                id={event.id}
-              />
-            </motion.div>
-          );
-        })}
+        {events.map((event, index) => (
+          <motion.div
+            key={event.id}
+            className="transition-all hover:shadow-2xl"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <EventCard
+              title={event.title}
+              category={event.category}
+              date={event.date}
+              endTime={event.endTime}
+              location={event.location}
+              image={event.image}
+              isPaid={event.isPaid}
+              isPrivate={event.isPrivate}
+              price={event.price}
+              id={event.id}
+            />
+          </motion.div>
+        ))}
       </div>
     </div>
   );

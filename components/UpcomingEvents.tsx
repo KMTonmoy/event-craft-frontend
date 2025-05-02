@@ -24,8 +24,8 @@ const EventsShowcase = () => {
   const [freeEvents, setFreeEvents] = useState<EventType[]>([]);
 
   useEffect(() => {
-    axios.get('./featuredEvents.json').then((res) => {
-      const allEvents = res.data as EventType[];
+    axios.get('http://localhost:5000/api/v1/event/events').then((res) => {
+      const allEvents = res.data.data as EventType[];
 
       const upcomingFreeEvents = allEvents.filter(
         (e) => !e.isPaid && !e.isPrivate && new Date(e.date) >= new Date()
