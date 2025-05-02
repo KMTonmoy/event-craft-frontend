@@ -33,7 +33,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 
     try {
       const response = await axios.post(
-        "https://event-craft-serv.vercel.app/api/v1/auth/register",
+        "http://localhost:5000/api/v1/auth/register",
         formData
       );
       console.log("Sign up successful", response.data);

@@ -29,7 +29,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModals }) => {
 
     try {
       const response = await axios.post(
-        "https://event-craft-serv.vercel.app/api/v1/auth/login",
+        "http://localhost:5000/api/v1/auth/login",
         formData,
         {
           withCredentials: true,
