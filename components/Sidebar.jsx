@@ -3,10 +3,9 @@ import React, { useState } from 'react';
 import {
   FaCalendarAlt,
   FaEnvelopeOpenText,
-  FaStar,
-  FaCogs,
   FaBars,
   FaTimes,
+  FaFolderOpen,
 } from "react-icons/fa";
 import Link from 'next/link';
 
@@ -15,18 +14,18 @@ const Sidebar = () => {
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const dashboardLinks = [
-    { name: 'My Events', icon: <FaCalendarAlt />, path: '/dashboard/myevents' },
+    { name: "My Events", icon: <FaCalendarAlt />, path: "/dashboard/myevents" },
     {
-      name: 'Pending Invitations',
+      name: "Pending Invitations",
       icon: <FaEnvelopeOpenText />,
-      path: '/dashboard/invitations',
+      path: "/dashboard/invitations",
     },
+
     {
-      name: 'My Reviews',
-      icon: <FaStar />,
-      path: '/dashboard/reviews',
+      name: "Mange Application",
+      icon: <FaFolderOpen />,
+      path: "/dashboard/manageApplication",
     },
-    { name: 'Settings', icon: <FaCogs />, path: '/dashboard/settings' },
   ];
 
   return (

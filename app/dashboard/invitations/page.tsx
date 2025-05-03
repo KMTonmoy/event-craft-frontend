@@ -1,15 +1,15 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   FaCalendarAlt,
   FaUser,
   FaEnvelopeOpenText,
   FaMapMarkerAlt,
   FaMoneyBill,
-  FaTag
-} from 'react-icons/fa';
-import GetUserEmail from '@/hooks/GetUserEmail';
+  FaTag,
+} from "react-icons/fa";
+import GetUserEmail from "@/hooks/GetUserEmail";
 
 interface Event {
   id: string;
@@ -38,13 +38,15 @@ interface User {
 const Invitations = () => {
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const userEmail = GetUserEmail();
   const [data, setData] = useState<{ data: User } | null>(null);
 
   useEffect(() => {
     if (userEmail) {
-      fetch(`https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`)
+      fetch(
+        `https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`
+      )
         .then((res) => res.json())
         .then((resp) => setData(resp))
         .catch(() => {});
@@ -56,10 +58,12 @@ const Invitations = () => {
   useEffect(() => {
     const fetchInvitations = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/v1/invitations/${user?.id}`);
+        const response = await axios.get(
+          `https://event-craft-serv.vercel.app/api/v1/invitations/${user?.id}`
+        );
         setInvitations(response.data);
       } catch {
-        setError('Error fetching invitations');
+        setError("Error fetching invitations");
       } finally {
         setLoading(false);
       }
@@ -70,13 +74,22 @@ const Invitations = () => {
 
   const handleRespond = async (invitationId: string, isPaid: boolean) => {
     try {
-      await axios.patch(`http://localhost:5000/api/v1/invitations/respond/${invitationId}`, {
-        accepted: true,
-        payment_status: isPaid ? 'COMPLETED' : 'FREE'
-      });
+      await axios.patch(
+        `https://event-craft-serv.vercel.app/api/v1/invitations/respond/${invitationId}`,
+        {
+          accepted: true,
+          payment_status: isPaid ? "COMPLETED" : "FREE",
+        }
+      );
       setInvitations((prev) =>
         prev.map((inv) =>
-          inv.id === invitationId ? { ...inv, accepted: true, payment_status: isPaid ? 'COMPLETED' : 'FREE' } : inv
+          inv.id === invitationId
+            ? {
+                ...inv,
+                accepted: true,
+                payment_status: isPaid ? "COMPLETED" : "FREE",
+              }
+            : inv
         )
       );
     } catch {}
@@ -102,7 +115,9 @@ const Invitations = () => {
               alt={invite.event.title}
               className="rounded-xl mb-3 w-full h-40 object-cover"
             />
-            <h3 className="text-xl font-semibold text-purple-800 mb-2">{invite.event.title}</h3>
+            <h3 className="text-xl font-semibold text-purple-800 mb-2">
+              {invite.event.title}
+            </h3>
             <p className="text-sm text-gray-600 mb-1 flex items-center gap-2">
               <FaCalendarAlt className="text-purple-500" />
               {new Date(invite.event.date).toLocaleString()}
@@ -111,14 +126,15 @@ const Invitations = () => {
               <FaUser className="text-purple-500" /> {invite.event.Author}
             </p>
             <p className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-              <FaMapMarkerAlt className="text-purple-500" /> {invite.event.location}
+              <FaMapMarkerAlt className="text-purple-500" />{" "}
+              {invite.event.location}
             </p>
             <p className="text-sm text-gray-600 mb-1 flex items-center gap-2">
               <FaTag className="text-purple-500" /> {invite.event.category}
             </p>
             <p className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-              <FaMoneyBill className="text-purple-500" /> Price:{' '}
-              {invite.event.isPaid ? `৳${invite.event.price}` : 'Free'}
+              <FaMoneyBill className="text-purple-500" /> Price:{" "}
+              {invite.event.isPaid ? `৳${invite.event.price}` : "Free"}
             </p>
             <div className="mt-3 flex flex-col gap-2">
               {invite.accepted ? (
@@ -130,11 +146,13 @@ const Invitations = () => {
                   onClick={() => handleRespond(invite.id, invite.event.isPaid)}
                   className={`px-4 py-2 rounded-lg text-white font-semibold ${
                     invite.event.isPaid
-                      ? 'bg-indigo-600 hover:bg-indigo-700'
-                      : 'bg-green-500 hover:bg-green-600'
+                      ? "bg-indigo-600 hover:bg-indigo-700"
+                      : "bg-green-500 hover:bg-green-600"
                   }`}
                 >
-                  {invite.event.isPaid ? 'Pay & Accept Invitation' : 'Accept Invitation'}
+                  {invite.event.isPaid
+                    ? "Pay & Accept Invitation"
+                    : "Accept Invitation"}
                 </button>
               )}
             </div>

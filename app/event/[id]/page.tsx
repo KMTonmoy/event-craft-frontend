@@ -2,8 +2,9 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import GetUserEmail from "@/hooks/GetUserEmail";
+import Swal from "sweetalert2";
 
-// Define the interface for the event data
 interface Event {
   id: string;
   title: string;
@@ -18,9 +19,29 @@ interface Event {
   visibility: string;
 }
 
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+}
+
 const EventDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [event, setEvent] = useState<Event | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const userEmail = GetUserEmail();
+
+  useEffect(() => {
+    if (userEmail) {
+      fetch(
+        `https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`
+      )
+        .then((res) => res.json())
+        .then((resp) => setUser(resp?.data as User))
+        .catch(() => {});
+    }
+  }, [userEmail]);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -28,7 +49,7 @@ const EventDetails = () => {
         `https://event-craft-serv.vercel.app/api/v1/event/events/${id}`
       );
       const data = await res.json();
-      setEvent(data.data);
+      setEvent(data.data as Event);
     };
 
     if (id) fetchEvent();
@@ -36,26 +57,73 @@ const EventDetails = () => {
 
   if (!event) return <p className="text-center mt-20">Loading...</p>;
 
-  // Logic for rendering the button text based on the event type
+  const handleJoin = async () => {
+    if (!user) {
+      Swal.fire({
+        title: "Error",
+        text: "You need to log in to join the event!",
+        icon: "error",
+      });
+      return;
+    }
+
+    const participationData = {
+      userId: user.id,
+      eventId: event.id,
+      status: "ACCEPTED",
+    };
+
+    if (!event.isPaid && !event.isPrivate) {
+      const res = await fetch(
+        "https://event-craft-serv.vercel.app/api/v1/participant/participations",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(participationData),
+        }
+      );
+
+      if (res.ok) {
+        Swal.fire({
+          title: "Success",
+          text: "You have successfully joined the event!",
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "There was an error joining the event.",
+          icon: "error",
+        });
+      }
+    } else {
+      Swal.fire({
+        title: "Request Sent",
+        text: "You have requested to join the event.",
+        icon: "info",
+      });
+    }
+  };
+
   const renderButton = () => {
-    if (event.isPrivate) {
+    if (event.isPrivate || event.isPaid) {
       return (
-        <button className="bg-blue-600 text-white py-3 px-8 rounded-full font-semibold hover:bg-blue-700 transition duration-300">
+        <button
+          className="bg-blue-600 text-white py-3 px-8 rounded-full font-semibold hover:bg-blue-700 transition duration-300"
+          onClick={handleJoin}
+        >
           Request to Join
         </button>
       );
     }
 
-    if (event.isPaid) {
-      return (
-        <button className="bg-green-600 text-white py-3 px-8 rounded-full font-semibold hover:bg-green-700 transition duration-300">
-          Join → Payment Flow
-        </button>
-      );
-    }
-
     return (
-      <button className="bg-green-600 text-white py-3 px-8 rounded-full font-semibold hover:bg-green-700 transition duration-300">
+      <button
+        className="bg-green-600 text-white py-3 px-8 rounded-full font-semibold hover:bg-green-700 transition duration-300"
+        onClick={handleJoin}
+      >
         Join → Instant Acceptance
       </button>
     );

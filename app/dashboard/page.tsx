@@ -1,32 +1,41 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import axios from "axios";
 import GetUserEmail from "@/hooks/GetUserEmail";
+import { FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
-// Interfaces
-interface UserData {
+interface EventData {
   id: string;
-  full_name: string;
+  title: string;
+  date: string;
+  location: string;
+  isPaid: boolean;
+  price: number;
+  image: string;
+  category: string;
+  visibility: string;
+  isPrivate: boolean;
+  Author: string;
+  isFeatureSelected: boolean;
+  creator_id: string;
+}
+
+interface User {
+  id: string;
   email: string;
-  phone?: string;
-  address?: string;
   role: string;
-  image_url?: string;
-  is_deleted?: boolean;
-  created_at: string;
-  updated_at: string;
+  full_name: string;
+  phone: string;
+  address: string;
+  createdAt: string;
 }
 
-interface UserResponse {
-  success: boolean;
-  message: string;
-  data: UserData;
-}
-
-const Page = () => {
+const DashboardHome: React.FC = () => {
+  const [events, setEvents] = useState<EventData[]>([]);
+  const [user, setUser] = useState<User | null>(null);
   const userEmail = GetUserEmail();
-  const [data, setData] = useState<UserResponse | null>(null);
 
   useEffect(() => {
     if (userEmail) {
@@ -34,94 +43,159 @@ const Page = () => {
         `https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`
       )
         .then((res) => res.json())
-        .then((resp) => setData(resp))
-        .catch((err) => console.error("Error fetching user data:", err));
+        .then((resp) => setUser(resp?.data))
+        .catch(() => {});
     }
   }, [userEmail]);
 
-  const user = data?.data;
+  useEffect(() => {
+    axios
+      .get("https://event-craft-serv.vercel.app/api/v1/event/events")
+      .then((res) => {
+        if (res.data.success) {
+          const allEvents: EventData[] = res.data.data;
+          const filtered =
+            user?.role === "ADMIN"
+              ? allEvents
+              : allEvents.filter(
+                  (event: EventData) => event.Author === userEmail
+                );
+          setEvents(filtered);
+        }
+      })
+      .catch(() => {});
+  }, [userEmail, user]);
+
+  const handleDeleteEvent = async (id: string) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.delete(
+          `https://event-craft-serv.vercel.app/api/v1/event/events/${id}`
+        );
+        if (res.data.success) {
+          setEvents(events.filter((e) => e.id !== id));
+          Swal.fire("Deleted!", "Event deleted.", "success");
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire("Error!", "There was an issue deleting the event.", "error");
+      }
+    }
+  };
 
   return (
-    <div className="p-6 space-y-8">
-      {/* Header */}
-      <div className="bg-blue-600 text-white rounded-2xl p-6 shadow-lg">
-        <h1 className="text-3xl font-bold">👋 Welcome to Your Dashboard:  {user?.full_name}</h1>
-        <p className="mt-2 text-lg">
-          Here’s a quick overview of your activity and events.
-        </p>
-      </div>
-
-      {/* User Info Badges */}
-      {user && (
-        <div className="bg-white shadow-md rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex justify-center items-center">
-            <img
-              src={user.image_url || "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"}
-              alt="User Avatar"
-              
-              className="rounded-full w-[100px] shadow-md object-cover"
-            />
-          </div>
-          <div className="flex flex-col gap-2 text-gray-800">
-            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-              Name: {user.full_name}
-            </span>
-            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-              Email: {user.email}
-            </span>
-            {user.phone && (
-              <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                Phone: {user.phone}
-              </span>
-            )}
-            {user.address && (
-              <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
-                Address: {user.address}
-              </span>
-            )}
-            <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
-              Role: {user.role}
-            </span>
-            <span className="text-xs text-gray-500">
-              Joined: {new Date(user.created_at).toLocaleDateString()}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* Banner Image + Text */}
-      <div className="flex flex-col md:flex-row gap-6 items-center">
-        <Image
-          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
-          alt="Dashboard Banner"
-          width={600}
-          height={400}
-          className="rounded-2xl shadow-lg object-cover"
-        />
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">
-            Stay Engaged with Your Community
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Participate in events, connect with others, and make an impact. Your
-            dashboard helps you manage everything in one place with ease.
+    <div className="p-6 w-full">
+      <motion.div
+        className="mb-6 bg-white p-6 rounded-lg shadow-xl"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="text-3xl font-bold text-blue-600">
+          👤 User Information
+        </h2>
+        <div className="mt-4 space-y-2">
+          <p>
+            <strong className="text-lg text-blue-500">Full Name:</strong>{" "}
+            {user?.full_name || "N/A"}
+          </p>
+          <p>
+            <strong className="text-lg text-blue-500">Email:</strong>{" "}
+            {user?.email}
+          </p>
+          <p>
+            <strong className="text-lg text-blue-500">Phone:</strong>{" "}
+            {user?.phone || "N/A"}
+          </p>
+          <p>
+            <strong className="text-lg text-blue-500">Address:</strong>{" "}
+            {user?.address || "N/A"}
           </p>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Tips or Announcements */}
-      <div className="bg-gray-100 p-5 rounded-xl shadow-sm">
-        <h3 className="text-xl font-semibold mb-2 text-blue-700">
-          📢 Latest Tips
-        </h3>
-        <ul className="list-disc ml-5 text-gray-700 space-y-1">
-          <li>Join events early to avoid missing spots.</li>
-          <li>Leave reviews after attending to help organizers improve.</li>
-          <li>Check your invitations regularly for new opportunities.</li>
-        </ul>
+      <motion.h2
+        className="text-2xl font-bold mb-4 text-blue-600"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        📋 My Events Quick Action
+      </motion.h2>
+
+      <div className="hidden md:block overflow-x-auto">
+        <motion.table
+          className="min-w-full bg-white border border-gray-200 text-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <thead>
+            <tr className="bg-gradient-to-r from-teal-400 to-blue-500 text-left text-white">
+              <th className="p-3 border">Title</th>
+              <th className="p-3 border">Date</th>
+              <th className="p-3 border">Location</th>
+              <th className="p-3 border">Category</th>
+              <th className="p-3 border">Type</th>
+              <th className="p-3 border">Price</th>
+              <th className="p-3 border">Featured</th>
+              <th className="p-3 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {events.map((event) => (
+              <motion.tr
+                key={event.id}
+                className="hover:bg-gray-50"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <td className="p-3 border">{event.title}</td>
+                <td className="p-3 border">
+                  {new Date(event.date).toLocaleString()}
+                </td>
+                <td className="p-3 border">{event.location}</td>
+                <td className="p-3 border">{event.category}</td>
+                <td className="p-3 border">{event.isPaid ? "Paid" : "Free"}</td>
+                <td className="p-3 border">
+                  {event.isPaid ? `৳${event.price}` : "-"}
+                </td>
+                <td className="p-3 border">
+                  {event.isFeatureSelected ? "Yes" : "No"}
+                </td>
+                <td className="p-3 border flex gap-2">
+                  <button
+                    onClick={() => handleDeleteEvent(event.id)}
+                    className="text-red-600 hover:underline"
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </motion.tr>
+            ))}
+            {events.length === 0 && (
+              <tr>
+                <td colSpan={8} className="text-center p-4 text-gray-500">
+                  No events found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </motion.table>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default DashboardHome;
