@@ -55,7 +55,7 @@ Follow these steps to get the EventCraft frontend running on your local machine:
 ### 1. Clone the Repository
 
 ```bash
-   git clone https://github.com/your-username/eventcraft-client.git
+   git clone https://github.com/KMTonmoy/event-craft-frontend.git
    cd event-craft-frontend
    npm install
    npm run dev
