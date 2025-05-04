@@ -15,8 +15,7 @@ const Sidebar = () => {
 
   const dashboardLinks = [
     { name: "My Events", icon: <FaCalendarAlt />, path: "/dashboard/myevents" },
-    { name: "Send Invitaion", icon: <FaCalendarAlt />, path: "/dashboard/send" },
-    {
+     {
       name: "Pending Invitations",
       icon: <FaEnvelopeOpenText />,
       path: "/dashboard/invitations",
