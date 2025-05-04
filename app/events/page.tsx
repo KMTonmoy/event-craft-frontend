@@ -1,8 +1,9 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { motion } from 'framer-motion';
-import EventCard from '@/components/Card';
+"use client";
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { motion } from "framer-motion";
+import EventCard from "@/components/Card";
 
 interface EventType {
   id: string;
@@ -19,14 +20,18 @@ interface EventType {
 
 const FilteredEvents = () => {
   const [events, setEvents] = useState<EventType[]>([]);
-  const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('All');
-  const [sortBy, setSortBy] = useState('date');
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("date");
 
   useEffect(() => {
-    axios.get('/featuredEvents.json').then((res) => {
-      setEvents(res.data);
-    });
+    axios
+      .get("https://event-craft-serv.vercel.app/api/v1/event/events")
+      .then((res) => setEvents(res.data?.data || []))
+      .catch((err) => {
+        console.error("Error fetching events:", err);
+        setEvents([]);
+      });
   }, []);
 
   const filtered = events
@@ -36,20 +41,20 @@ const FilteredEvents = () => {
         e.category.toLowerCase().includes(search.toLowerCase());
 
       const filterMatch =
-        filter === 'All'
+        filter === "All"
           ? true
-          : filter === 'Public Free'
+          : filter === "Public Free"
           ? !e.isPrivate && !e.isPaid
-          : filter === 'Public Paid'
+          : filter === "Public Paid"
           ? !e.isPrivate && e.isPaid
-          : filter === 'Private Free'
+          : filter === "Private Free"
           ? e.isPrivate && !e.isPaid
           : e.isPrivate && e.isPaid;
 
       return searchMatch && filterMatch;
     })
     .sort((a, b) => {
-      if (sortBy === 'price') return a.price - b.price;
+      if (sortBy === "price") return a.price - b.price;
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
 
@@ -105,8 +110,11 @@ const FilteredEvents = () => {
             <EventCard {...event} />
           </motion.div>
         ))}
+
         {filtered.length === 0 && (
-          <p className="col-span-full text-center text-gray-500">No matching events found.</p>
+          <p className="col-span-full text-center text-gray-500">
+            No matching events found.
+          </p>
         )}
       </div>
     </div>
