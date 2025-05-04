@@ -34,9 +34,7 @@ const EventDetails = () => {
 
   useEffect(() => {
     if (userEmail) {
-      fetch(
-        `https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`
-      )
+      fetch(`https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`)
         .then((res) => res.json())
         .then((resp) => setUser(resp?.data as User))
         .catch(() => {});
@@ -45,9 +43,7 @@ const EventDetails = () => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const res = await fetch(
-        `https://event-craft-serv.vercel.app/api/v1/event/events/${id}`
-      );
+      const res = await fetch(`https://event-craft-serv.vercel.app/api/v1/event/events/${id}`);
       const data = await res.json();
       setEvent(data.data as Event);
     };
@@ -67,42 +63,38 @@ const EventDetails = () => {
       return;
     }
 
+    const isInstantJoin = !event.isPaid && !event.isPrivate;
+
     const participationData = {
       userId: user.id,
       eventId: event.id,
-      status: "ACCEPTED",
+      status: isInstantJoin ? "ACCEPTED" : "PENDING",
     };
 
-    if (!event.isPaid && !event.isPrivate) {
-      const res = await fetch(
-        "https://event-craft-serv.vercel.app/api/v1/participant/participations",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(participationData),
-        }
-      );
-
-      if (res.ok) {
-        Swal.fire({
-          title: "Success",
-          text: "You have successfully joined the event!",
-          icon: "success",
-        });
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: "There was an error joining the event.",
-          icon: "error",
-        });
+    const res = await fetch(
+      "https://event-craft-serv.vercel.app/api/v1/participant/participations",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(participationData),
       }
+    );
+
+    if (res.ok) {
+      Swal.fire({
+        title: isInstantJoin ? "Success" : "Request Sent",
+        text: isInstantJoin
+          ? "You have successfully joined the event!"
+          : "You have requested to join the event. Please wait for approval.",
+        icon: isInstantJoin ? "success" : "info",
+      });
     } else {
       Swal.fire({
-        title: "Request Sent",
-        text: "You have requested to join the event.",
-        icon: "info",
+        title: "Error",
+        text: "There was an error joining the event.",
+        icon: "error",
       });
     }
   };
