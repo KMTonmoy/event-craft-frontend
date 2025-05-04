@@ -60,7 +60,7 @@ Follow these steps to get the EventCraft frontend running on your local machine:
    npm install
    npm run dev
 
-
+```
 ## 🙋 Author
 
 **Tonmoy Ahamed**  
