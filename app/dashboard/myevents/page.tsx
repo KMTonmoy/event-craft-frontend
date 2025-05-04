@@ -63,18 +63,12 @@ const MyEvents: React.FC = () => {
 
   useEffect(() => {
     if (userEmail) {
-      fetch(
-        `https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`
-      )
+      fetch(`https://event-craft-serv.vercel.app/api/v1/users/users/${userEmail}`)
         .then((res) => res.json())
         .then((resp) => setUser(resp?.data))
         .catch(() => {});
     }
   }, [userEmail]);
-
-  const userRole = user?.role;
-
-  console.log(userRole);
 
   useEffect(() => {
     axios
@@ -85,9 +79,7 @@ const MyEvents: React.FC = () => {
           const filtered =
             user?.role === "ADMIN"
               ? allEvents
-              : allEvents.filter(
-                  (event: EventData) => event.Author === userEmail
-                );
+              : allEvents.filter((event: EventData) => event.Author === userEmail);
           setEvents(filtered);
         }
       })
@@ -116,15 +108,16 @@ const MyEvents: React.FC = () => {
 
   const handleUpdateEvent = async () => {
     if (!editEvent) return;
+
+    const updatedEvent = { ...editEvent, date: new Date(editEvent.date).toISOString() };
+
     try {
       const res = await axios.put(
-        `https://event-craft-serv.vercel.app/api/v1/event/events/${editEvent.id}`,
-        editEvent
+        `https://event-craft-serv.vercel.app/api/v1/event/events/${updatedEvent.id}`,
+        updatedEvent
       );
       if (res.data.success) {
-        setEvents(
-          events.map((e) => (e.id === editEvent.id ? res.data.data : e))
-        );
+        setEvents(events.map((e) => (e.id === updatedEvent.id ? res.data.data : e)));
         Swal.fire("Updated!", "Event updated successfully.", "success");
         setIsModalOpen(false);
         setEditEvent(null);
@@ -154,12 +147,14 @@ const MyEvents: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold text-center mb-4 text-blue-600">
-        🎉 My Events
-      </h2>
+      <h2 className="text-2xl font-bold text-center mb-4 text-blue-600">🎉 My Events</h2>
       <div className="text-center mb-4">
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsModalOpen(true);
+            setIsEditing(false);
+            setNewEvent(defaultEvent);
+          }}
           className="bg-blue-600 text-white px-4 py-2 rounded"
         >
           Create New
@@ -182,31 +177,23 @@ const MyEvents: React.FC = () => {
             <div className="mt-2 space-y-1 text-sm text-gray-700">
               <h3 className="text-lg font-semibold">{event.title}</h3>
               <p>
-                <FaCalendarAlt className="inline" />{" "}
-                {new Date(event.date).toLocaleString()}
+                <FaCalendarAlt className="inline" /> {new Date(event.date).toLocaleString()}
               </p>
               <p>
                 <FaMapMarkerAlt className="inline" /> {event.location}
               </p>
               <p>
-                <FaMoneyBillAlt className="inline" />{" "}
-                {event.isPaid ? `৳${event.price}` : "Free"}
+                <FaMoneyBillAlt className="inline" /> {event.isPaid ? `৳${event.price}` : "Free"}
               </p>
               <p>
                 <FaUser className="inline" /> {event.Author}
               </p>
             </div>
             <div className="flex justify-end gap-3 mt-3">
-              <button
-                onClick={() => openEditModal(event)}
-                className="text-yellow-600"
-              >
+              <button onClick={() => openEditModal(event)} className="text-yellow-600">
                 <FaEdit />
               </button>
-              <button
-                onClick={() => handleDeleteEvent(event.id)}
-                className="text-red-600"
-              >
+              <button onClick={() => handleDeleteEvent(event.id)} className="text-red-600">
                 <FaTrash />
               </button>
             </div>
@@ -229,6 +216,17 @@ const MyEvents: React.FC = () => {
                   isEditing
                     ? setEditEvent({ ...editEvent!, title: e.target.value })
                     : setNewEvent({ ...newEvent, title: e.target.value })
+                }
+                className="border p-2 rounded w-full"
+              />
+              <input
+                type="text"
+                placeholder="Category"
+                value={isEditing ? editEvent?.category : newEvent.category}
+                onChange={(e) =>
+                  isEditing
+                    ? setEditEvent({ ...editEvent!, category: e.target.value })
+                    : setNewEvent({ ...newEvent, category: e.target.value })
                 }
                 className="border p-2 rounded w-full"
               />
@@ -276,28 +274,24 @@ const MyEvents: React.FC = () => {
                       ? "Yes"
                       : "No"
                   }
-                  onChange={(e) => {
-                    const isPaid = e.target.value === "Yes";
-                    if (isEditing) {
-                      setEditEvent({
-                        ...editEvent!,
-                        isPaid,
-                        price: isPaid ? editEvent!.price : 0,
-                      });
-                    } else {
-                      setNewEvent({
-                        ...newEvent,
-                        isPaid,
-                        price: isPaid ? newEvent.price : 0,
-                      });
-                    }
-                  }}
+                  onChange={(e) =>
+                    isEditing
+                      ? setEditEvent({
+                          ...editEvent!,
+                          isPaid: e.target.value === "Yes",
+                        })
+                      : setNewEvent({
+                          ...newEvent,
+                          isPaid: e.target.value === "Yes",
+                        })
+                  }
                   className="border p-2 rounded"
                 >
-                  <option value="No">No</option>
                   <option value="Yes">Yes</option>
+                  <option value="No">No</option>
                 </select>
               </div>
+
               {(isEditing ? editEvent?.isPaid : newEvent.isPaid) && (
                 <input
                   type="number"
@@ -305,91 +299,91 @@ const MyEvents: React.FC = () => {
                   value={isEditing ? editEvent?.price : newEvent.price}
                   onChange={(e) =>
                     isEditing
-                      ? setEditEvent({
-                          ...editEvent!,
-                          price: Number(e.target.value),
-                        })
-                      : setNewEvent({
-                          ...newEvent,
-                          price: Number(e.target.value),
-                        })
+                      ? setEditEvent({ ...editEvent!, price: +e.target.value })
+                      : setNewEvent({ ...newEvent, price: +e.target.value })
                   }
                   className="border p-2 rounded w-full"
                 />
               )}
-              <select
-                value={isEditing ? editEvent?.category : newEvent.category}
-                onChange={(e) =>
-                  isEditing
-                    ? setEditEvent({ ...editEvent!, category: e.target.value })
-                    : setNewEvent({ ...newEvent, category: e.target.value })
-                }
-                className="border p-2 rounded w-full"
-              >
-                <option value="Technology">Technology</option>
-                <option value="Business">Business</option>
-                <option value="Health">Health</option>
-              </select>
+
               <div className="flex items-center gap-2">
                 <label>Private:</label>
-                <input
-                  type="checkbox"
-                  checked={
-                    isEditing ? editEvent?.isPrivate : newEvent.isPrivate
+                <select
+                  value={
+                    isEditing
+                      ? editEvent?.isPrivate
+                        ? "Yes"
+                        : "No"
+                      : newEvent.isPrivate
+                      ? "Yes"
+                      : "No"
                   }
                   onChange={(e) =>
                     isEditing
                       ? setEditEvent({
                           ...editEvent!,
-                          isPrivate: e.target.checked,
+                          isPrivate: e.target.value === "Yes",
                         })
                       : setNewEvent({
                           ...newEvent,
-                          isPrivate: e.target.checked,
+                          isPrivate: e.target.value === "Yes",
                         })
                   }
-                />
+                  className="border p-2 rounded"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
               </div>
+
               <div className="flex items-center gap-2">
-                <label>Featured:</label>
-                <input
-                  type="checkbox"
-                  checked={
+                <label>Feature Selected:</label>
+                <select
+                  value={
                     isEditing
                       ? editEvent?.isFeatureSelected
+                        ? "Yes"
+                        : "No"
                       : newEvent.isFeatureSelected
+                      ? "Yes"
+                      : "No"
                   }
                   onChange={(e) =>
                     isEditing
                       ? setEditEvent({
                           ...editEvent!,
-                          isFeatureSelected: e.target.checked,
+                          isFeatureSelected: e.target.value === "Yes",
                         })
                       : setNewEvent({
                           ...newEvent,
-                          isFeatureSelected: e.target.checked,
+                          isFeatureSelected: e.target.value === "Yes",
                         })
                   }
-                />
+                  className="border p-2 rounded"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
               </div>
-            </div>
-            <div className="flex justify-end gap-3 mt-4">
-              <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                  setIsEditing(false);
-                  setEditEvent(null);
-                }}
-                className="bg-gray-300 px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={isEditing ? handleUpdateEvent : handleCreateEvent}
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-              >
-                {isEditing ? "Update" : "Create"}
-              </button>
+
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setIsEditing(false);
+                    setEditEvent(null);
+                  }}
+                  className="bg-gray-400 text-white px-4 py-2 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={isEditing ? handleUpdateEvent : handleCreateEvent}
+                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                >
+                  {isEditing ? "Update" : "Create"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
